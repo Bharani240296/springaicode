@@ -28,7 +28,6 @@ public class AIService {
 
         public String askPdf(String question) {
 
-            // Read PDF
             FileSystemResource resource =
                     new FileSystemResource("MODULES.pdf");
 
@@ -37,12 +36,10 @@ public class AIService {
 
             List<Document> documents = reader.get();
 
-            // Convert PDF content to text
             String pdfText = documents.stream()
                     .map(Document::getText)
                     .reduce("", (a, b) -> a + "\n" + b);
 
-            // Send PDF content + question to AI
             String prompt = """
                 Answer the question using ONLY the PDF content below.
 
