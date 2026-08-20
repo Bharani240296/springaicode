@@ -1,4 +1,4 @@
-# Spring AI + Groq Demo
+# Spring AI + Groq
 
 ## Description
 
