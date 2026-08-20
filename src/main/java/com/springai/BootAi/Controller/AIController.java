@@ -12,6 +12,7 @@ public class AIController {
 
     private final AIService aiService;
 
+
     public AIController(AIService aiService) {
         this.aiService = aiService;
     }
@@ -19,5 +20,10 @@ public class AIController {
     @GetMapping("/ask")
     public String ask(@RequestParam String message) {
         return aiService.ask(message);
+    }
+    @GetMapping("/pdf")
+    public String askPdf(@RequestParam String question) {
+
+        return aiService.askPdf(question);
     }
 }
