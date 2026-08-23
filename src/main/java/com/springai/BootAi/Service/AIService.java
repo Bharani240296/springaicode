@@ -6,13 +6,17 @@ import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AIService {
 
     private final ChatClient chatClient;
-
+    private final Map<String, List<String>> conversations =
+            new HashMap<>();
     public AIService(ChatClient chatClient) {
         this.chatClient = chatClient;
     }
@@ -56,5 +60,38 @@ public class AIService {
                     .call()
                     .content();
         }
+    public String chat(String conversationId, String message) {
+        System.out.println("chat history   "+conversations);
+        conversations
+                .computeIfAbsent(conversationId, id -> new ArrayList<>())
+                .add("User: " + message);
+
+        String history = String.join("\n",
+                conversations.get(conversationId));
+
+        String prompt = """
+                You are a helpful AI assistant.
+
+                Conversation history:
+                %s
+
+                Current user message:
+                %s
+
+                Answer the user naturally.
+                """.formatted(history, message);
+
+        String response = chatClient
+                .prompt()
+                .user(prompt)
+                .call()
+                .content();
+
+        conversations
+                .get(conversationId)
+                .add("Assistant: " + response);
+
+        return response;
+    }
     }
 

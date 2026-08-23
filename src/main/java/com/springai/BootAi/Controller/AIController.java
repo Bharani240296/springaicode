@@ -1,10 +1,7 @@
 package com.springai.BootAi.Controller;
 
 import com.springai.BootAi.Service.AIService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/ai")
@@ -25,5 +22,12 @@ public class AIController {
     public String askPdf(@RequestParam String question) {
 
         return aiService.askPdf(question);
+    }
+    @PostMapping
+    public String chat(
+            @RequestParam String conversationId,
+            @RequestParam String message) {
+
+        return aiService.chat(conversationId, message);
     }
 }
