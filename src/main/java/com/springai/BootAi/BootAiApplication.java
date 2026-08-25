@@ -12,6 +12,8 @@ public class BootAiApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(BootAiApplication.class, args);
+
+
 	}
 
 }
